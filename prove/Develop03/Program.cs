@@ -1,91 +1,177 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.VisualBasic;
 
 public class Word
 {
-    private List<string> _hiddenWords;
-    
-    public void _replaceWithUnderscore(List<string> list)
+    private string _word;
+    private string _wordHidden;
+    private bool _isHidden;
+
+    public Word()
     {
-        Random r = new Random();
-        int ind = list.Count()-1;
-        foreach (var word in list)
+
+    }
+    public Word(string word)
+    {
+        _word = word;
+        _isHidden = false;
+    }
+    public void HideWord()
+    {
+        _isHidden = true;
+        int len = _word.Length;
+        int i = 0;
+        while (i != len)
         {
-            int rand = r.Next(0, ind);
-            Console.WriteLine(list[rand]);
-            if (list[rand] == null){
-                Console.Write("broken");
-            }
-            if (list[rand].IndexOf("_") != -1)
-            {
-                continue;
-            }
-            else
-            {
-                string underscore = "";
-                int i = 0;
-                int len = list[rand].Length;
-                while (i != len)
-                {
-                    underscore += '_';
-                    i += 1;
-                }
-                list[rand] = underscore;
-                break;
-            }
-            
+            _wordHidden += "_";
+            i ++;
         }
-        _hiddenWords= list;
     }
 
+    public void RevealWord()
+    {
+        _isHidden = false;
+    }
+
+    public string GetWord()
+    {
+        return _word;
+    }
+    
+    public bool CheckHidden()
+    {
+        return _isHidden;
+    }
+    public string GetWordHidden()
+    {
+        return _wordHidden;
+    }
 
 }
 
 public class Scripture
 {
     private string _text;
-    private List<string> _words;
+    private List<Word> _words;
     
+    private bool _isAllHidden;
 
-    public void _rejoin(List<string> old)
+    public Scripture(string text)
     {
-        string joined ="";
-        foreach (var l in old)
+        _text = text;
+        List<Word> temp = new List<Word>();
+        _words = temp;
+
+        
+    }
+
+    public void WriteScripture()
+    {
+        int w = 0;
+        int i = 0;
+        while (w != _words.Count())
         {
-            joined += $"{l} ";
+            if (_words[w].CheckHidden())
+            {
+                Console.Write($"{_words[w].GetWordHidden()} ");
+                w +=1;
+                i ++;
+            }
+            else
+            {
+                Console.Write($"{_words[w].GetWord()} ");
+                w +=1;
+            }
         }
-        _text = joined;
+        if (i == _words.Count())
+        {
+            Console.Clear();
+            Console.WriteLine("Scripture Fully Hidden!");
+            
+        }
     }
-    public void _writeScripture(string re)
+
+    public void Split()
     {
-        /*Console.Clear();*/
-        Console.WriteLine(re);
-        Console.WriteLine(_text);
-    }
-    public void _split(string scrip)
-    {
-        List<string> newScrip = new List<string>();
-        string[] words = scrip.Split(" ");
+        string[] words = _text.Split(" ");
         foreach (var word in words)
         {
-            newScrip.Add(word);
+            Word tempWord = new Word(word);
+            _words.Add(tempWord);
         }
-        _words= newScrip;
+    }
+
+    public List<Word> GetWords()
+    {
+        return _words;
+    }
+    public string GetText()
+    {
+        return _text;
+    }
+    public void HideNew()
+    {
+        Random r = new Random();
+        int c;
+        int i =0;
+        bool done = false;
+        int len = _words.Count();
+        while(done != true)
+        {
+            c = r.Next(0, len);
+            if(_words[c].CheckHidden())
+            {
+                i += 1;
+                continue;
+            }
+            else if (!_words[c].CheckHidden())
+            {
+                _words[c].HideWord();
+                done = true;
+            }
+            else
+            {
+                _isAllHidden = true;
+            }   
+        }
+        
+    }
+    public bool AllHidden()
+    {
+        return _isAllHidden;
     }
 }
 
 class Reference
 {
-    public string _full;
-    public string _book;
-    public string _chapter;
-    public string _startVerse;
-    public string _endVerse;
+    private string _full;
+    private string _book;
+    private string _chapter;
+    private string _startVerse;
+    private string _endVerse;
+
+    public Reference(string book, string chapter, string startVerse, string endVerse)
+    {
+        _book = book;
+        _chapter = chapter;
+        _startVerse = startVerse;
+        _endVerse = endVerse;
+        _condense();
+    }
+    public Reference(string book, string chapter, string startVerse)
+    {
+        _book = book;
+        _chapter = chapter;
+        _startVerse = startVerse;
+        _condense();
+    }
     public void _condense()
     {
-        string refer = "";
+        string refer;
         if (_startVerse == _endVerse)
         {
             refer = $"{_book} {_chapter}:{_startVerse}";
@@ -97,12 +183,11 @@ class Reference
         
         _full= refer;
     }
-    public void _setReference()
+
+
+    public string getReference()
     {
-        _book = "John";
-        _chapter = "3";
-        _startVerse = "16";
-        _endVerse = "16";
+        return $"{_full}";
     }
 }
 
@@ -116,21 +201,27 @@ class Program
 {
     static void Main(string[] args)
     {
-        Scripture john = new Scripture();
-        Word hide = new Word();
-        Reference re = new Reference();
-        john._text = "For God so loved the world that he gave his only begotten Son, that whosoever believeth in him should not perish, but have eternal life";
-        string cont = "";
-        while (cont != "quit")
+        Scripture John = new Scripture("For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.");
+        Reference J = new Reference("john", "3", "16");
+        Console.WriteLine("Scripture Memorizer");
+        string quit = "";
+        John.Split();
+        while (quit != "quit")
         {
-        john._split(john._text);
-        hide._replaceWithUnderscore(john._words);
-        john._rejoin(hide._hiddenWords);
-        john._writeScripture(re._full);
-        Console.WriteLine("Press Enter to Continue, Type \"quit\" to quit");
-        cont = Console.ReadLine();
+            Console.Clear();
+            John.HideNew();
+            Console.WriteLine($"{J.getReference()} ");
+            John.WriteScripture();
+            if (John.AllHidden())
+            {
+                quit = "quit";
+            }
+            else
+            {
+            Console.WriteLine("\nPress Enter to Continue, type \"quit\" to quit");
+            quit = Console.ReadLine();
+            }
         }
-        
-
+        Console.WriteLine("Thanks for using my scripture memeorizer. ");
     }
 }
