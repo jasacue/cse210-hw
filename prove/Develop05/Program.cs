@@ -1,115 +1,5 @@
 using System;
 
-public class Creature
-{
-    public string _name;
-
-    public int _level;
-    
-    public int _goalPoints;
-
-    public int _goalsCompleted;
-
-    public Creature(string name)
-    {
-        _name = name;
-        _level = 1;
-        _goalPoints = 0;
-        _goalsCompleted = 0;
-    }
-
-    public Creature(string name, int level, int goalPoints, int goalsCompleted)
-    {
-        _name = name;
-        _level = level;
-        _goalPoints = goalPoints;
-        _goalsCompleted = goalsCompleted;
-    }
-
-
-}
-
-
-
-
-public class Goal
-{
-    protected int _value;
-
-    protected string _goalName;
-
-    protected string _description;
-
-    public Goal(int value, string goalName, string description)
-    {
-        _value = value;
-        _goalName = goalName;
-        _description = description;
-
-    }
-}
-
-public class SimpleGoal : Goal
-{
-    private bool _isComplete;
-
-    public SimpleGoal(int value, string goalName, string description)
-        :base(value, goalName, description)
-        {
-            _value = value;
-            _goalName = goalName;
-            _isComplete = false;
-            _description = description;
-        }
-    public void completed()
-    {
-        _isComplete = true;
-    }
-}
-
-public class EternalGoal : Goal
-{
-    private int _completions;
-
-    public EternalGoal(int value, string goalName, string description)
-        :base(value, goalName, description)
-    {
-        _value = value;
-        _goalName = goalName;
-        _completions = 0;
-        _description = description;
-    }
-
-    public void complete()
-    {
-        _completions ++;
-    }
-}
-
-public class ListGoal : Goal
-{
-    private int _incrementPointVal;
-    private int _completions;
-    private int _neededCompletions;
-
-    public ListGoal(int value, string goalName, string description, int incrementPointVal, int neededCompletions)
-        :base (value, goalName, description)
-        {
-            _value = value;
-            _goalName = goalName;
-            _incrementPointVal = incrementPointVal;
-            _completions = 0;
-            _neededCompletions = neededCompletions;
-        }
-
-
-        
-}
-
-
-
-
-
 class Program
 {
 
@@ -118,6 +8,7 @@ class Program
     static void Main(string[] args)
     {
         /*main menu*/
+        Creature pet = new Creature("steve");
         int i = 10;
         Console.WriteLine("Welcome to the goal setting program\nPlease Select what you would like to do:");
         Console.WriteLine("1. Create New Goal\n2. List Goals\n3. Save Goals\n4. Load Goals\n5. Record Event");
@@ -129,32 +20,84 @@ class Program
                 case 1:
                 {
                     int z;
-                    Console.WriteLine("What type of goal would you like to make? \n1. Simple Goal \n2. Eternal Goal\n3. List Goal");
+                    Console.WriteLine("What type of goal would you like to make? \n1. Simple Goal \n2. Eternal Goal\n3. List Goal \n0. Quit");
                     z = Convert.ToInt32(Console.ReadLine());
                     string description = "";
                     int value;
                     string goalName = "";
                     switch (z)
                     {
-                        case 1:
+                        case 1: /*simple goal */
                         {
                             Console.Write("Please Enter the Name of the goal: ");
                             goalName = Console.ReadLine();
-                            Comnsole.Write("Please Enter a Short Description: ");
+                            Console.Write("Please Enter a Short Description: ");
                             description = Console.ReadLine();
                             Console.Write("Please Enter the Value of the goal: ");
                             value = Convert.ToInt32(Console.ReadLine());
                             SimpleGoal s = new SimpleGoal(value, goalName, description);
+                            pet._goals.Add(s);
+                            break;
+                        }
+                        case 2: /*eternal goal*/
+                        {   
+                            Console.Write("Please Enter the Name of the goal: ");
+                            goalName = Console.ReadLine();
+                            Console.Write("Please Enter a Short Description: ");
+                            description = Console.ReadLine();
+                            Console.Write("Please Enter the Value of the goal: ");
+                            value = Convert.ToInt32(Console.ReadLine());
+                            EternalGoal s = new EternalGoal(value, goalName, description);
+                            pet._goals.Add(s);
+                            break;
+                        }
+                        case 3: /*checklist Goal */
+                        {
+                            Console.Write("Please Enter the Name of the goal: ");
+                            goalName = Console.ReadLine();
+                            Console.Write("Please Enter a Short Description: ");
+                            description = Console.ReadLine();
+                            Console.Write("Please Enter the Value of the goal: ");
+                            value = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("Enter the incremental point value: ");
+                            int increment = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("Please enter the needed completions: ");
+                            int needed = Convert.ToInt32(Console.ReadLine());
+                            ListGoal s = new ListGoal(value, goalName, description, increment, needed);
+                            break;
                         }
                     }
                     break;
                 }
+
                 case 2:
                 {
+                    pet.DisplayComplete();
+                    Console.WriteLine("Press Enter to Continue");
+                    Console.ReadLine();
+                    break;
+                }
+                case 3:
+                {
+
+                    break;
+                }
+                case 4:
+                {
+                    
+                    break;
+                }
+                case 5:
+                {
+                    Console.WriteLine("Which Goal did you accomplish? ");
+                    pet.DisplayNames();
+                    int p = Convert.ToInt32(Console.ReadLine());
+                    pet._goals[p].Complete();
                     break;
                 }
 
             }
+            Console.WriteLine("1. Create New Goal\n2. List Goals\n3. Save Goals\n4. Load Goals\n5. Record Event");
             i = Convert.ToInt32(Console.ReadLine());
         }
     }
