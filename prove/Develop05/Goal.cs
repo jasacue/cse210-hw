@@ -13,6 +13,7 @@ public class Goal
         _value = value;
         _goalName = goalName;
         _description = description;
+        _completion = "false";
 
     }
 
@@ -32,5 +33,9 @@ public class Goal
     public virtual void Complete()
     {
         _completion = "true";
+    }
+    public virtual string CompressData()
+    {
+        return $"Goal,{_value},{_goalName},{_description},{_completion}";
     }
 }
