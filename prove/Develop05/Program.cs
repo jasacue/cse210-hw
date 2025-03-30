@@ -11,7 +11,7 @@ class Program
         Creature pet = new Creature("steve");
         int i = 10;
         Console.WriteLine("Welcome to the goal setting program\nPlease Select what you would like to do:");
-        Console.WriteLine("1. Create New Goal\n2. List Goals\n3. Save Goals\n4. Load Goals\n5. Record Event\n0. Quit");
+        Console.WriteLine("1. Create New Goal\n2. List Goals\n3. Save Goals\n4. Load Goals\n5. Record Event\n6. Make Creature\n7. Check Creature\n0. Quit");
         i = Convert.ToInt32(Console.ReadLine());
         while (i != 0)
         {
@@ -92,17 +92,33 @@ class Program
                     pet.LoadCreature(fileName);
                     break;
                 }
-                case 5:
+                case 5: //points up
                 {
                     Console.WriteLine("Which Goal did you accomplish? ");
                     pet.DisplayNames();
                     int p = Convert.ToInt32(Console.ReadLine());
                     pet._goals[p-1].Complete();
+                    pet._totalPoints += pet._goals[p-1].GetValue();
+                    break;
+                }
+                case 6: //make a new creature
+                {   
+                    Console.WriteLine("What would you like to name the creature?");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("What kind of creature is it?");
+                    string type = Console.ReadLine();
+                    pet.NameType(name, type);
+                    break;
+                }
+                case 7: //check on the creature
+                {
+                    pet.DisplayCreature();
                     break;
                 }
 
+
             }
-            Console.WriteLine("1. Create New Goal\n2. List Goals\n3. Save Goals\n4. Load Goals\n5. Record Event\n0. Quit");
+            Console.WriteLine("1. Create New Goal\n2. List Goals\n3. Save Goals\n4. Load Goals\n5. Record Event\n6. Make Creature\n7. Check Creature\n0. Quit");
             i = Convert.ToInt32(Console.ReadLine());
         }
     }

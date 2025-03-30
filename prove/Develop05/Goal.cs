@@ -38,4 +38,9 @@ public class Goal
     {
         return $"Goal,{_value},{_goalName},{_description},{_completion}";
     }
+
+    public int GetValue()
+    {
+        return _value;
+    }
 }

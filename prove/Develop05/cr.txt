@@ -1,4 +1,0 @@
-0
-SimpleGoal,100,Simple Goal,this is the description for simple goal,false,False
-EternalGoal,200,Eternal Goal,This is the description for the eternal goal,false,0
-ListGoal,500,List goal,THis is the description for the list goal,false,50,0,5

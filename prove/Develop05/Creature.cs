@@ -10,6 +10,8 @@ public class Creature
 
     public int _goalsCompleted;
 
+    public string _type;
+
     public List<Goal> _goals = new List<Goal>();
 
     public Creature(string name)
@@ -65,13 +67,36 @@ public class Creature
         }
     }
 
+    public void NameType(string name, string type)
+    {
+        _type = type;
+        _name = name;
+    }
+
+    public void SetLevel()
+    {
+        double i = Convert.ToDouble(_totalPoints/500);
+        _level = Convert.ToInt32(Math.Round(i,0));
+    }
+
+
+
+
+    public void DisplayCreature()
+    {
+        SetLevel();
+        Console.WriteLine($"The Current Creature is a {_type}, and its name is {_name}.\nIt is level {_level}");
+        Console.Write("Press Enter to Continue: ");
+        Console.ReadLine();
+    }
+
     public void SaveCreature(string fileName)
     {
         
 
         using (StreamWriter outputFile = new StreamWriter(fileName))
         {
-            outputFile.WriteLine($"{_name},{_totalPoints},{_goalsCompleted}");
+            outputFile.WriteLine($"{_name},{_totalPoints},{_goalsCompleted},{_type}");
             foreach (var g in _goals)
             {
                 outputFile.WriteLine($"{g.CompressData()}");
@@ -87,6 +112,7 @@ public class Creature
         _totalPoints = Convert.ToInt32(basic[1]);
         _name = basic[0];
         _goalsCompleted = Convert.ToInt32(basic[2]);
+        _type = basic[3];
         foreach (string line in lines)
         {
             string[] parts = line.Split(",");

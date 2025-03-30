@@ -1,0 +1,4 @@
+Steve the creature,0,0,Flying Monkey
+SimpleGoal,500,Read my Book,Read the way of kings by brandon Sanderson,false,False
+EternalGoal,50,Pray,Say a prayer,false,0
+ListGoal,300,Make a steak,Make 3 steaks,false,100,0,3
