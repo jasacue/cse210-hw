@@ -12,16 +12,16 @@ class Reference
         _chapter = chapter;
         _startVerse = startVerse;
         _endVerse = endVerse;
-        _condense();
+        Condense();
     }
     public Reference(string book, string chapter, string startVerse)
     {
         _book = book;
         _chapter = chapter;
         _startVerse = startVerse;
-        _condense();
+        Condense();
     }
-    public void _condense()
+    public void Condense()
     {
         string refer;
         if (_startVerse == _endVerse)
@@ -37,7 +37,7 @@ class Reference
     }
 
 
-    public string getReference()
+    public string GetReference()
     {
         return $"{_full}";
     }
