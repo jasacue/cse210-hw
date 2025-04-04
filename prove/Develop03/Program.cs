@@ -12,17 +12,21 @@ class Program
     {
         Scripture John = new Scripture("For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.");
         Reference J = new Reference("john", "3", "16");
-        Console.WriteLine("Scripture Memorizer");
         string quit = "";
         John.Split();
+        Console.Clear();
+        John.WriteScripture();
+        Console.WriteLine("\nPress Enter to Start");
+        Console.ReadLine();
         while (quit != "quit")
         {
             Console.Clear();
             John.HideNew();
-            Console.WriteLine($"{J.getReference()} ");
+            Console.WriteLine($"{J.GetReference()} ");
             John.WriteScripture();
             if (John.AllHidden())
             {
+                Console.WriteLine("\nScripture is fully hidden");
                 quit = "quit";
             }
             else
@@ -31,6 +35,6 @@ class Program
             quit = Console.ReadLine();
             }
         }
-        Console.WriteLine("Thanks for using my scripture memeorizer. ");
+        Console.WriteLine("Thanks for using my scripture memeorizer.");
     }
 }

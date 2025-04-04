@@ -2,9 +2,11 @@ public class ReflectionActivity : Activity
 {
     private List<string> _prompts = new List<string>();
     private List<string> _questions = new List<string>();
-    public ReflectionActivity(int duration)
-        :base("This activity will help you reflect on times in your life when you have shown strength and resilience. \nThis will help you recognize the power you have and how you can use it in other aspects of your life.", "Reflection Activity", "Thank you for taking some time to be mindufl", duration)
+    public ReflectionActivity(string description, string name, string endDescription, int duration)
+        :base(description, name, endDescription, duration)
         {
+            _description = "This activity will help you reflect on times in your life when you have shown strength and resilience. \nThis will help you recognize the power you have and how you can use it in other aspects of your life.";
+            _name = "Reflection Activity";
             _prompts.Add("Think of a time when you stood up for someone else.");
             _prompts.Add("Think of a time when you did something really difficult.");
             _prompts.Add("Think of a time when you helped someone in need.");
@@ -26,7 +28,7 @@ public class ReflectionActivity : Activity
         Random r = new Random();
         int z = 0;
         Thread.Sleep(2000);
-        while (z < (_duration+7)/8)
+        while (z < _duration/8)
         {
             int i = r.Next(0, _prompts.Count());
             Console.WriteLine($"{_prompts[i]} \n");

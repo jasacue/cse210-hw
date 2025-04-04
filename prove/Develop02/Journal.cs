@@ -4,54 +4,51 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks.Dataflow;
 using System.IO;
-using System.Transactions;
 public class Journal{
-    public Entry _currentEntry = new Entry();
-    public List<Entry> _unsavedEntries = new List<Entry>();
+    public Entry _currentEntry;
+    public List<string> _unsavedEntries;
 
-    public void SaveEntries(string filename){
+    public void _SaveEntries(string filename){
         using (StreamWriter outputFile = new StreamWriter(filename, true))
         {
-            foreach (Entry entry in _unsavedEntries)
+            foreach (string entry in _unsavedEntries)
             {
-                outputFile.WriteLine($"{entry._date},{entry._prompt},{entry._entry},{entry._location}");
+                outputFile.WriteLine(entry);
             }
 
         }
         Console.WriteLine("Saved!");
     }
     
-    public void DisplayEntries()
+    public void _DisplayEntries()
     {
-        foreach (Entry entry in _unsavedEntries)
+        foreach (string entry in _unsavedEntries)
         {
-            Console.WriteLine($"{Condense(entry)}\n");
+            Console.WriteLine($"{entry}\n");
         }
     }
-    public void NewEntry()
-    {   
-        string prompt = _currentEntry.GivePrompt();
-        Console.WriteLine(prompt);
-        string entry = Console.ReadLine();
-        Entry e = new Entry(entry, _currentEntry.GetDate(), prompt, _currentEntry.GetLocation());
-        _unsavedEntries.Add(e);
-        
+    public Entry _NewEntry(Entry entry1)
+    {
+        entry1._prompt = entry1._GivePrompt();
+        entry1._date = entry1._GetDate();
+        entry1._location = entry1._GetLocation();
+        Console.WriteLine($"Prompt: {entry1._prompt}"); 
+        entry1._entry = entry1._GetEntry();
+        return entry1;
     }
-    public string Condense(Entry entry)
+    public string _Condense(Entry entry)
     {
         string condensed;
         condensed = $"Date: {entry._date} - Location: {entry._location} - Prompt: {entry._prompt} {entry._entry}";
         return condensed;
     }
 
-    public Entry LoadEntries(string filename, Journal journal)
+    public Entry _LoadEntries(string filename, Journal journal)
     {
         string[] lines = System.IO.File.ReadAllLines(filename);
-        foreach (string lin in lines)
+        foreach (string line in lines)
         {
-            string[] line =lin.Split(',');
-            Entry e = new Entry(line[3], line[0], line[2], line[1]);
-            journal._unsavedEntries.Add(e);
+            journal._unsavedEntries.Add(line);
         }
         return null;
     }
