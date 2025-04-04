@@ -1,17 +1,15 @@
-using System.IO.Compression;
-
 public class Scripture
 {
     private string _text;
-    private List<Word> _words = new List<Word>();
+    private List<Word> _words;
     
     private bool _isAllHidden;
 
     public Scripture(string text)
     {
         _text = text;
-        _isAllHidden = false;
-
+        List<Word> temp = new List<Word>();
+        _words = temp;
 
         
     }
@@ -22,15 +20,22 @@ public class Scripture
         int i = 0;
         while (w != _words.Count())
         {
+            if (_words[w].CheckHidden())
+            {
+                Console.Write($"{_words[w].GetWordHidden()} ");
+                w +=1;
+                i ++;
+            }
+            else
+            {
                 Console.Write($"{_words[w].GetWord()} ");
                 w +=1;
-                
+            }
         }
         if (i == _words.Count())
         {
             Console.Clear();
             Console.WriteLine("Scripture Fully Hidden!");
-            _isAllHidden = true;
             
         }
     }
@@ -44,56 +49,41 @@ public class Scripture
             _words.Add(tempWord);
         }
     }
-    public void CheckAllHidden()
+
+    public List<Word> GetWords()
     {
-        int e = 0;
-        foreach(var i in _words)
-        {
-            if (i.CheckHidden())
-            {
-                e += 1;
-            }
-            else
-            {
-                e +=0;
-            }
-        }
-        if (e== _words.Count())
-        {
-            _isAllHidden = true;
-        }
+        return _words;
+    }
+    public string GetText()
+    {
+        return _text;
     }
     public void HideNew()
     {
-        int c;
-        int i = 0;
-        int z = 0;
         Random r = new Random();
-        while(z != 3)
+        int c;
+        int i =0;
+        bool done = false;
+        int len = _words.Count();
+        while(done != true)
         {
-            foreach (var w in _words)
+            c = r.Next(0, len);
+            if(_words[c].CheckHidden())
             {
-                c = r.Next(0, _words.Count());
-                if (_words[c].CheckHidden())
-                {
-                    i+= 1;
-                    if (i == _words.Count())
-                    {
-                        _isAllHidden = true;
-                        break;
-                    }
-                    continue;
-
-                }
-                else
-                {
-                    _words[c].HideWord();
-                    break;
-                }
+                i += 1;
+                continue;
             }
-            
-            z += 1;
+            else if (!_words[c].CheckHidden())
+            {
+                _words[c].HideWord();
+                done = true;
+            }
+            else
+            {
+                _isAllHidden = true;
+            }   
         }
+        
     }
     public bool AllHidden()
     {

@@ -1,17 +1,27 @@
+using System.Reflection;
+
 public class Medication
 {
-    private string _name;
+    protected string _name;
 
-    private string _purpose;
+    protected string _purpose;
 
-    private int _dosage;
+    protected int _dosage;
+
+    protected string _dosageUnit;
 
     public virtual int getDosage()
     {
         return _dosage;
     }
 
-    
+    public Medication(string name, string purpose, int dosage, string dosageUnit)
+    {
+        _name = name;
+        _purpose = purpose;
+        _dosage = dosage;
+        _dosageUnit = dosageUnit;
+    }
 
 
 }
