@@ -29,7 +29,7 @@ class Reference
             refer = $"{_book} {_chapter}:{_startVerse}";
         }
         else
-        {
+        { //www
             refer = $"{_book} {_chapter}:{_startVerse}-{_endVerse}";
         }
         
