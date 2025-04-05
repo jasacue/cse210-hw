@@ -71,7 +71,7 @@ public class Scripture
             if(_words[c].CheckHidden())
             {
                 i += 1;
-                continue;
+                continue; //ee
             }
             else if (!_words[c].CheckHidden())
             {
