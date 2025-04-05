@@ -3,11 +3,9 @@ public class ListingActivity : Activity
     private List<string> _prompts = new List<string>();
     private List<string> _responces = new List<string>();
 
-    public ListingActivity(string description, string name, string endDescription, int duration)
-        :base(description, name, endDescription, duration)
+    public ListingActivity(int duration)
+        :base("This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.", "Listing Activity", "Thank you for taking some time to be mindufl", duration)
         {
-            _description = "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.";
-            _name = "Listing Activity";
             _prompts.Add("Who are people that you appreciate?");
             _prompts.Add("What are personal strengths of yours?");
             _prompts.Add("Who are people that you have helped this week?");
