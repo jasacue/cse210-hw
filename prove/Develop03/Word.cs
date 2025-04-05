@@ -26,7 +26,7 @@ public class Word
     }
 
     public void RevealWord()
-    {
+    {//ee
         _isHidden = false;
     }
 
