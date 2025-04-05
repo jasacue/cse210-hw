@@ -25,23 +25,22 @@ public class Word
         }
     }
 
-    public void RevealWord()
-    {//ee
-        _isHidden = false;
-    }
-
     public string GetWord()
     {
-        return _word;
+        if (_isHidden == true)
+        {
+            return _wordHidden;
+        }
+        else
+        {
+            return _word;
+        }
     }
     
     public bool CheckHidden()
     {
         return _isHidden;
     }
-    public string GetWordHidden()
-    {
-        return _wordHidden;
-    }
+
 
 }
