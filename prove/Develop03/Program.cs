@@ -15,7 +15,7 @@ class Program
         Console.WriteLine("Scripture Memorizer");
         string quit = "";
         John.Split();
-        while (quit != "quit")
+        while (quit != "quit") //ee
         {
             Console.Clear();
             John.HideNew();
