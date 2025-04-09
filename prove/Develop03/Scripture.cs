@@ -1,15 +1,17 @@
+using System.IO.Compression;
+
 public class Scripture
 {
     private string _text;
-    private List<Word> _words;
+    private List<Word> _words = new List<Word>();
     
     private bool _isAllHidden;
 
     public Scripture(string text)
     {
         _text = text;
-        List<Word> temp = new List<Word>();
-        _words = temp;
+        _isAllHidden = false;
+
 
         
     }
@@ -20,22 +22,15 @@ public class Scripture
         int i = 0;
         while (w != _words.Count())
         {
-            if (_words[w].CheckHidden())
-            {
-                Console.Write($"{_words[w].GetWordHidden()} ");
-                w +=1;
-                i ++;
-            }
-            else
-            {
                 Console.Write($"{_words[w].GetWord()} ");
                 w +=1;
-            }
+                
         }
         if (i == _words.Count())
         {
             Console.Clear();
             Console.WriteLine("Scripture Fully Hidden!");
+            _isAllHidden = true;
             
         }
     }
@@ -49,41 +44,56 @@ public class Scripture
             _words.Add(tempWord);
         }
     }
-
-    public List<Word> GetWords()
+    public void CheckAllHidden()
     {
-        return _words;
-    }
-    public string GetText()
-    {
-        return _text;
-    }
-    public void HideNew()
-    {
-        Random r = new Random();
-        int c;
-        int i =0;
-        bool done = false;
-        int len = _words.Count();
-        while(done != true)
+        int e = 0;
+        foreach(var i in _words)
         {
-            c = r.Next(0, len);
-            if(_words[c].CheckHidden())
+            if (i.CheckHidden())
             {
-                i += 1;
-                continue; //ee
-            }
-            else if (!_words[c].CheckHidden())
-            {
-                _words[c].HideWord();
-                done = true;
+                e += 1;
             }
             else
             {
-                _isAllHidden = true;
-            }   
+                e +=0;
+            }
         }
-        
+        if (e== _words.Count())
+        {
+            _isAllHidden = true;
+        }
+    }
+    public void HideNew()
+    {
+        int c;
+        int i = 0;
+        int z = 0;
+        Random r = new Random();
+        while(z != 3)
+        {
+            foreach (var w in _words)
+            {
+                c = r.Next(0, _words.Count());
+                if (_words[c].CheckHidden())
+                {
+                    i+= 1;
+                    if (i == _words.Count())
+                    {
+                        _isAllHidden = true;
+                        break;
+                    }
+                    continue;
+
+                }
+                else
+                {
+                    _words[c].HideWord();
+                    break;
+                }
+            }
+            
+            z += 1;
+        }
     }
     public bool AllHidden()
     {

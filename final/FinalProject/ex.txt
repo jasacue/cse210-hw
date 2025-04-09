@@ -1,0 +1,4 @@
+o,Tylenol,500mg,50,pill,
+i,Pain-Away,500ml,20,angled,50mm,Eric Forman
+o,Pain-Be-Gone,400mg,40,inhaled,
+p,04/09/2025,30,Severe Leg Pain,0,Dr. House,t,new jersey public health clinic

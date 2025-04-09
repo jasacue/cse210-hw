@@ -6,15 +6,10 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.RegularExpressions;
 class Program
 {
-
-
-
-
-
-
     static void Main(string[] args)
     {
         /*menu*/
+        DateTime start = DateTime.Now;
         string quit = "";
         while (quit != "quit")
         {
@@ -24,17 +19,17 @@ class Program
             switch (i)
             {
                 case 1:
-                BreathingActivity breathe = new BreathingActivity("des", "name", "end", 0);
+                BreathingActivity breathe = new BreathingActivity(0);
                 breathe.BreathActive();
                 break;
 
                 case 2:
-                ReflectionActivity reflect = new ReflectionActivity("", "", "", 0);
+                ReflectionActivity reflect = new ReflectionActivity(0);
                 reflect.RefActive();
                 break;
 
                 case 3:
-                ListingActivity lis = new ListingActivity("", "", "", 0);
+                ListingActivity lis = new ListingActivity(0);
                 lis.ListActive();
                 break;
 
@@ -44,5 +39,7 @@ class Program
                 break;
             }
         }
+        DateTime end = DateTime.Now;
+        Console.WriteLine($"Thank you for taking some time to be mindful. You were Mindful for {end.Subtract(start).TotalSeconds} seconds");
     }
 }

@@ -11,7 +11,21 @@ public class Entry {
     public string _prompt;
     public string _location;
     
-    public string _GivePrompt() /*returns a random journal prompt from a switch statement which is then displayed to the user */
+
+
+    public Entry(string entry, string date, string prompt, string location)
+    {
+        _entry = entry;
+        _date = date;
+        _prompt = prompt;
+        _location = location;
+    }
+    public Entry()
+    {
+        
+    }
+
+    public string GivePrompt() /*returns a random journal prompt from a switch statement which is then displayed to the user */
     {   
         string choice="";
         Random rnd = new Random();
@@ -40,20 +54,20 @@ public class Entry {
         }
         return choice;
     }   
-    public string _GetEntry()
+    public string GetEntry()
     {
         string entry = "";
         Console.Write("Entry:");
         entry = Console.ReadLine();
         return entry;
     }
-    public string _GetDate()
+    public string GetDate()
     {
         DateTime theCurrentTime = DateTime.Now;
         string date = theCurrentTime.ToShortDateString();
         return date;
     }
-    public string _GetLocation()  /*Bonus Requirement*/
+    public string GetLocation()  /*Bonus Requirement*/
     {
         string location = "";
         Console.Write("Please Enter your locaiton:");
